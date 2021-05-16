@@ -17,3 +17,7 @@ phases:
 artifacts:
   files:
     - target/mynavi-sample-aws-ecs-backend-for-frontend-*.jar
+
+cache:
+  paths:
+    - '/root/.m2/**/*'    
