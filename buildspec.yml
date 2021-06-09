@@ -11,9 +11,14 @@ phases:
     commands:
       - echo Build started on `date`
       - mvn install
+      - echo Docker Build
+      - docker build -t 523530166249.dkr.ecr.ap-northeast-1.amazonaws.com/mynavi-sample-ecs-bff:latest .
   post_build:
     commands:
       - echo Build completed on `date`
+      - echo ECR Docker Push
+      - aws ecr get-login-password | docker login --username AWS --password-stdin 523530166249.dkr.ecr.ap-northeast-1.amazonaws.com
+      - docker push 523530166249.dkr.ecr.ap-northeast-1.amazonaws.com/mynavi-sample-ecs-bff:latest      
 artifacts:
   files:
     - target/mynavi-sample-aws-ecs-backend-for-frontend-*.jar
