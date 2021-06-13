@@ -5,24 +5,33 @@ phases:
     runtime-versions:
       java: corretto11
   pre_build:
-    commands:
-      - echo Nothing to do in the pre_build phase...
+    commands:      
+      - echo Logging in to Amazon ECR...    
+      - ECR_URI=523530166249.dkr.ecr.ap-northeast-1.amazonaws.com
+      - REPOSITORY_URI=$ECR_URI/mynavi-sample-ecs-bff
+      - aws ecr get-login-password | docker login --username AWS --password-stdin $ECR_URI
+      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      - IMAGE_TAG=${COMMIT_HASH:=latest}
   build:
     commands:
       - echo Build started on `date`
       - mvn install
-      - echo Docker Build
-      - docker build -t 523530166249.dkr.ecr.ap-northeast-1.amazonaws.com/mynavi-sample-ecs-bff:latest .
+      - echo Docker Build      
+      - docker build -t $REPOSITORY_URI:latest .
+      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
   post_build:
     commands:
       - echo Build completed on `date`
-      - echo ECR Docker Push
-      - aws ecr get-login-password | docker login --username AWS --password-stdin 523530166249.dkr.ecr.ap-northeast-1.amazonaws.com
-      - docker push 523530166249.dkr.ecr.ap-northeast-1.amazonaws.com/mynavi-sample-ecs-bff:latest      
+      - echo ECR Docker Push      
+      - docker push $REPOSITORY_URI:latest      
+      - docker push $REPOSITORY_URI:$IMAGE_TAG
+      - echo Writing image definitions file...
+      - printf '[{"name":"mynavi-sample-aws-ecs-bff","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
 artifacts:
   files:
-    - target/mynavi-sample-aws-ecs-backend-for-frontend-*.jar
+    #- target/mynavi-sample-aws-ecs-backend-for-frontend-*.jar
+    - imagedefinitions.json
 
 cache:
   paths:
-    - '/root/.m2/**/*'    
+    - '/root/.m2/**/*'  
