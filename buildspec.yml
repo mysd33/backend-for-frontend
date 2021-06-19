@@ -26,7 +26,7 @@ phases:
       - docker push $REPOSITORY_URI:latest      
       - docker push $REPOSITORY_URI:$IMAGE_TAG
       - echo Writing image definitions file...
-      - printf '[{"name":"mynavi-sample-aws-ecs-bff","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
+      - printf '[{"name":"ecsdemo-frontend-app","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
 artifacts:
   files:
     #- target/mynavi-sample-aws-ecs-backend-for-frontend-*.jar
