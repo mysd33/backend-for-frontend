@@ -1,6 +1,7 @@
 # Dockerfile for sample service using embedded tomcat server
 
-FROM amazoncorretto:8-alpine
+#FROM amazoncorretto:8-alpine
+FROM public.ecr.aws/amazoncorretto/amazoncorretto:8
 
 RUN addgroup -S -g 1000 app \
     && adduser -D -S -G app -u 1000 -s /bin/ash app
