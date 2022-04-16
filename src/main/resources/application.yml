@@ -9,4 +9,4 @@ server:
   servlet:
     context-path: /backend-for-frontend
 service:
-  dns: http://internal-Demo-PrivateALB-613005592.ap-northeast-1.elb.amazonaws.com
+  dns: http://internal-Demo-PrivateALB-1366503673.ap-northeast-1.elb.amazonaws.com
