@@ -14,5 +14,6 @@ cloud:
 server:
   servlet:
     context-path: /backend-for-frontend
-service:
-  dns: http://internal-Demo-PrivateALB-1366503673.ap-northeast-1.elb.amazonaws.com
+service:  
+  dns: http://internal-Demo-PrivateALB-2060768951.ap-northeast-1.elb.amazonaws.com 
+  
