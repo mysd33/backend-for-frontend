@@ -19,4 +19,4 @@ USER $USERNAME
 WORKDIR /home/$USERNAME/
 
 COPY target/mynavi-sample-aws-ecs-backend-for-frontend-0.0.1-SNAPSHOT.jar /home/$USERNAME
-CMD java -jar -Dspring.profiles.active=$ENV_TYPE -Dserivce.dns=$BACKEND_URL /home/app/mynavi-sample-aws-ecs-backend-for-frontend-0.0.1-SNAPSHOT.jar
+CMD java -jar -Dspring.profiles.active=$ENV_TYPE -Dservice.dns=$BACKEND_URL /home/app/mynavi-sample-aws-ecs-backend-for-frontend-0.0.1-SNAPSHOT.jar
