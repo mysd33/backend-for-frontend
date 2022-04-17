@@ -12,6 +12,7 @@ phases:
       - aws ecr get-login-password | docker login --username AWS --password-stdin $ECR_URI
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
       - IMAGE_TAG=${COMMIT_HASH:=latest}
+      - ECS_TASK_DEFINITION_ARN=Demo-ecstask-frontend-app
   build:
     commands:
       - echo Build started on `date`
@@ -27,7 +28,9 @@ phases:
       - docker push $REPOSITORY_URI:$IMAGE_TAG
       - echo Writing image definitions file...
       - printf '[{"name":"ecsdemo-frontend-app","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
-      - printf '{"ImageURI":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imageDetail.json      
+      - printf '{"ImageURI":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imageDetail.json
+#TODO: taskdef.json auto generate
+#      - aws ecs describe-task-definition --task-definition $ECS_TASK_DEFINITION_ARN --query taskDefinition | jq '.containerDefinitions[0].image="<IMAGE1_NAME>"' > taskdef.json
 artifacts:
   files:
     #- target/mynavi-sample-aws-ecs-backend-for-frontend-*.jar
