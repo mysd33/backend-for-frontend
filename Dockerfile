@@ -7,7 +7,7 @@
 #WORKDIR /home/app
 #COPY target/mynavi-sample-aws-ecs-backend-for-frontend-0.0.1-SNAPSHOT.jar /home/app
 
-FROM public.ecr.aws/amazoncorretto/amazoncorretto:8
+FROM public.ecr.aws/amazoncorretto/amazoncorretto:11
 RUN yum install -y shadow-utils
 ARG USERNAME=app
 ARG GROUPNAME=app
