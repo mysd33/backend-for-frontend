@@ -11,6 +11,8 @@ phases:
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
       - IMAGE_TAG=${COMMIT_HASH:=latest}
       - ECS_TASK_DEFINITION_ARN=Demo-ecstask-frontend-app
+      - export IMAGE_TAG
+      - ls /root/.m2/      
   build:
     commands:
       - echo Build started on `date`
@@ -31,12 +33,15 @@ phases:
       - printf '{"ImageURI":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imageDetail.json
 #TODO: taskdef.json auto generate
       - aws ecs describe-task-definition --task-definition $ECS_TASK_DEFINITION_ARN --query taskDefinition | jq '.containerDefinitions[0].image="<IMAGE1_NAME>"' > taskdef.json
+      - envsubst < k8s/k8s-bff-deployment-template.yaml > k8s/k8s-bff-deployment.yaml      
+      - ls /root/.m2/
 artifacts:
   files:
     #- target/mynavi-sample-aws-ecs-backend-for-frontend-*.jar
     - imagedefinitions.json
     - imageDetail.json
     - taskdef.json
+    - k8s/k8s-bff-deployment.yaml
 cache:
   paths:
     - '/root/.m2/**/*'  
