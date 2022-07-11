@@ -40,7 +40,9 @@ artifacts:
     - imagedefinitions.json
     - imageDetail.json
     - taskdef.json
+    - buildspec-eks-cd.yml
     - imageTag.txt
+    - k8s/k8s-backend-deployment.yaml  
 cache:
   paths:
-    - '/root/.m2/**/*'  
+    - '/root/.m2/**/*'
