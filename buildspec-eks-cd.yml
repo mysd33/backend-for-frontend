@@ -11,5 +11,6 @@ phases:
   build:
     commands:
       - aws eks --region $AWS_REGION update-kubeconfig --name $CLUSTER_NAME
-      - echo manifest apply      
+# bff app deployoment manifest apply            
+      - echo deployment manifest apply      
       - envsubst < k8s/k8s-bff-deployment.yaml | kubectl apply -f -
